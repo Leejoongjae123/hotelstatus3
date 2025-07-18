@@ -21,6 +21,7 @@ export default function LogsPage() {
           </CardContent>
         </Card>
       }>
+        
         <LogsTable />
       </Suspense>
     </div>
