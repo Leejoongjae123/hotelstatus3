@@ -19,7 +19,7 @@ export interface HotelPlatform {
   mfa_id?: string;
   mfa_password?: string;
   mfa_platform?: string;
-  status: 'active' | 'inactive';
+  status: 'active' | 'deactive';
   created_at: string;
   updated_at: string;
 }

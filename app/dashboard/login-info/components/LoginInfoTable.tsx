@@ -263,7 +263,7 @@ export default function LoginInfoTable() {
   const getStatusName = (status: string) => {
     const statusNames: { [key: string]: string } = {
       'active': '활성',
-      'inactive': '비활성',
+      'deactive': '비활성',
     };
     return statusNames[status] || status;
   };
@@ -272,7 +272,7 @@ export default function LoginInfoTable() {
     switch (status) {
       case 'active':
         return 'default';
-      case 'inactive':
+      case 'deactive':
         return 'secondary';
       default:
         return 'outline';

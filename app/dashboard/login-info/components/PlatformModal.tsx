@@ -65,7 +65,7 @@ export default function PlatformModal({
 
   const statusOptions = [
     { value: 'active', name: '활성' },
-    { value: 'inactive', name: '비활성' },
+    { value: 'deactive', name: '비활성' },
   ];
 
   useEffect(() => {
@@ -151,20 +151,29 @@ export default function PlatformModal({
       const data = await response.json();
 
       if (!response.ok) {
-        // 에러 처리 개선: 객체인 경우 문자열로 변환
+        // 에러 처리 개선: 구체적인 validation 에러 메시지 표시
         let errorMessage = '저장 중 오류가 발생했습니다.';
         
         if (data.detail) {
           if (typeof data.detail === 'string') {
             errorMessage = data.detail;
           } else if (Array.isArray(data.detail)) {
-            errorMessage = '입력 데이터에 오류가 있습니다.';
+            // validation 에러의 구체적인 내용을 표시
+            const validationErrors = data.detail.map((error: any) => {
+              if (typeof error === 'string') return error;
+              if (error.msg) return `${error.loc ? error.loc.join('.') + ': ' : ''}${error.msg}`;
+              return JSON.stringify(error);
+            }).join(', ');
+            errorMessage = `입력 데이터 오류: ${validationErrors}`;
           }
         } else if (data.error) {
           if (typeof data.error === 'string') {
             errorMessage = data.error;
           }
         }
+        
+        // 디버깅을 위해 전체 응답을 콘솔에 로그
+        console.log('API 응답 에러:', { status: response.status, data });
         
         setError(errorMessage);
         return;
@@ -225,7 +234,7 @@ export default function PlatformModal({
             <Label htmlFor="status">상태 <span className="text-destructive">*</span></Label>
             <Select 
               value={formData.status} 
-              onValueChange={(value: 'active' | 'inactive') => setFormData(prev => ({ ...prev, status: value }))}
+              onValueChange={(value: 'active' | 'deactive') => setFormData(prev => ({ ...prev, status: value }))}
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="상태를 선택해주세요" />
