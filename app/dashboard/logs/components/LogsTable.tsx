@@ -552,6 +552,14 @@ export default function LogsTable() {
                       <label className="text-sm font-medium text-muted-foreground">플랫폼</label>
                       <p className="text-sm">{selectedLog.platform || '-'}</p>
                     </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">로그인 아이디</label>
+                      <p className="text-sm font-mono">{selectedLog.login_id || '-'}</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">로그인 비밀번호</label>
+                      <p className="text-sm font-mono">{selectedLog.login_password || '-'}</p>
+                    </div>
                   </CardContent>
                 </Card>
 
